@@ -1,4 +1,4 @@
-name: SelfCommitLoop
+name: SelfCommit
 on:
   push:
     branches:
@@ -9,7 +9,11 @@ permissions:
 
 jobs:
   self_commit:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -27,5 +31,6 @@ jobs:
             git push https://$PAT_TOKEN@github.com/${{ github.repository }}.git HEAD:main
             sleep 10
           done
+        shell: bash
         env:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
