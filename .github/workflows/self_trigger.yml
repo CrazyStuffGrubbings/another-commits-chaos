@@ -18,6 +18,7 @@ jobs:
       - name: Commit lol
         run: |
           while true; do
+            git pull origin main || echo "No changes to pull"
             echo "$(date)" > timestamp.txt
             git add timestamp.txt
             git config user.name "ThePixelMoon"
